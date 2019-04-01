@@ -1,0 +1,60 @@
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}找题{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/question.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    {% if request.session.is_login %}
+{#    <div class="container" style="height:100%">#}
+{#        <form action="/search1/" method="get">#}
+{#            <div class="col">#}
+{#            <input class="fl que" type="text" name="q" placeholder="请输入题面">#}
+{#            </div>#}
+{#            <input id="site-search-submit" class="search fr" type="submit" value="题面搜索" >#}
+{#        </form>#}
+{#        <form action="/code_search_result/" method="get">#}
+{#            <div class="col">#}
+{#            <textarea class="fl cod" name="code1" placeholder="请输入代码"></textarea>#}
+{#            </div>#}
+{#            <input id="site-search-submit" class="search fr" type="submit" value="代码搜索" >#}
+{#        </form>#}
+{#		</div>#}
+
+        <div class="container">
+            <div>
+                <div class="col-md-6">
+                    <form  action="/search1/" method="get">
+                        <div class="col">
+                            <input class="fl que_fa" type="text" name="q" placeholder="请输入题面">
+                        </div>
+                        <div class="clearfix"></div>
+                        <input id="site-search-submit" class="search_fa fl" type="submit" value="题面搜索">
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form  action="/code_search_result/" method="get">
+                        <div class="col">
+                            <textarea class="fl code_fa" name="code1" placeholder="请输入代码"></textarea>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="form-group">
+                            <select name="select_language">
+                            <option value="">请选择语言</option>
+                            <option value ="python">Python</option>
+                            <option value ="cpp">C++</option>
+                            </select>
+                        </div>
+                        <input id="site-search-submit" class="search_fa fl" type="submit" value="代码搜索">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+{% endblock %}

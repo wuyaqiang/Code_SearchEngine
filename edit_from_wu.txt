@@ -1,0 +1,21 @@
+2018-9-1之前:
+    static/css/question.css
+    templates/login/find_answer.html
+    templates/search/indexes/test_re/problem_code_text.txt
+    templates/search/code_search_result.html
+    test_re/code_processing/
+    test_re/search_indexes.py
+    test_re/search_views.py
+    test_login/urls.py
+
+2018-9-7之前:
+    修改django-haystack内置文件:  /usr/local/lib/python3.5/dist-packages/haystack/utils/highlighting.py
+
+2018-9-14:
+    search/code_processing/tokenize.py
+    search/code_processing/relate_dict.py
+    search/search_indexes.py
+    search/search_views.py
+    templates/search/find_question.html
+    templates/search/code_search_result.html
+

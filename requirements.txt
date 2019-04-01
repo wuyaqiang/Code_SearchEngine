@@ -1,0 +1,10 @@
+clang
+clang-5
+Whoosh
+Django
+jieba
+django_recaptcha
+django_haystack
+djangorestframework
+elasticsearch
+PyMysql

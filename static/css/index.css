@@ -1,0 +1,63 @@
+/*<--common--!>*/
+a{
+    text-decoration: none;
+    color: #919191;
+}
+/*content*/
+*{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.mainmenu{
+    clear:both;
+    margin-top:5%;
+    padding-top:10px;}
+.glyphicon{
+    font-size:80px;
+    line-height:1.5em;
+    }
+.innercol{
+    width:20%;
+    margin-left:10%;
+    float:left;
+    margin-top:20px;
+    padding-left:10px;
+    text-align:left;
+    padding:10px;
+    background-color:#fafafa;
+    border:1px solid #c1c1c1;}
+    .innercol span:hover{
+    color:#fff;}
+.innercol:hover{
+    background-color:#0ba1e4;
+    border:1px solid #0ba1e4;
+    color:#fff;
+    box-shadow:0px 0px 20px 0px rgba(45,183,245,0.5);
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.smalltitle{
+    padding-top:20px;}
+.recommand{
+    width:50%;
+    text-align:left;
+    margin:20px 10%;
+}
+/*.table th{*/
+    /*font-size:30px;}*/
+.table th tr td a{
+    text-decoration:none;
+    line-height:2em;
+}
+.table tr td a:link {color:black;}
+.table tr td a:visited {color:black;}
+.table tr td a:hover {color:#0ba1e4;}
+

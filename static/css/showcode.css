@@ -1,0 +1,26 @@
+body {
+	/*background-image:url(../images/6.jpg);*/
+	background-color: #eee;
+}
+.text{
+        width:40%;
+        float:left;
+        margin-left:5%;
+        margin-top:10%;
+    }
+    .inputcode{
+        width:40%;
+        float:left;
+        margin-top:40%;
+    }
+    #showcode{
+        margin-left:5%;
+        margin-top:10%;
+    }
+    #code{
+        display:none;
+        width:40%;
+        float:right;
+        margin-right:5%;
+        margin-top:11%;
+    }

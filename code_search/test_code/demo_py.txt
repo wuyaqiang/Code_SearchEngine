@@ -1,0 +1,10 @@
+def twoSum(nums, target):
+
+    for i in range(len(nums)):
+        left = target - nums[i]
+        if left > 0:
+            return left
+        else:
+            left += 1
+    return None
+

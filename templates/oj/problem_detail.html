@@ -1,0 +1,65 @@
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}题目信息{% endblock %}
+{% block content %}
+
+      <div style="margin-left: 20px;">
+            <h1>{{ problem.title }}</h1>
+            <p>{{ problem.description }}</p>
+            <p>{{ problem.difficulty }}</p>
+      </div>
+      <div class="col-md-4">
+      <form action="/question_bank/{{ problem.id }}/result" method="post" role="form">
+          {% csrf_token %}
+          <select class="form-control" style="width: 50%; margin-bottom: 20px;" name="selected_language">
+              <option value="C">C</option>
+              <option value="C++">C++</option>
+              <option value="python3">python3</option>
+          </select>
+          <textarea class="form-control" rows="20" style="margin-bottom: 20px;" name="user_code"></textarea>
+          <button class="btn btn-default" type="submit">Go!</button>
+      </form>
+      </div>
+
+{#<div>#}
+{#    <form action="{% url "problem:problem_submit" problem.id %}" method="post" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        <input type="file" name="code-file" id="code-file" required>#}
+{#        <input type="submit" id="start-upload" value="确定上传">#}
+{#    </form>#}
+{#</div>#}
+
+
+{#call by ajax#}
+{#<div>#}
+{#    <form method="post" onsubmit="return false" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        <input type="file" name="code-file" id="code-file" required>#}
+{#        <input type="submit" id="start-upload" value="确定上传">#}
+{#    </form>#}
+{#</div>#}
+
+{#<script>#}
+{#    function fileUpload() {#}
+{#        var form_data = new FormData();#}
+{#        var file = $("#code-file")[0].files[0];#}
+{#        form_data.append("file", file);#}
+{##}
+{#        $.ajax({#}
+            {#url: "{{ problem.id }}/submit.html",#}
+{#            url: "{% url "problems:problem_submit" problem.id %}",#}
+{#            type: "POST",#}
+{#            data: form_data,#}
+{#            processData: false,#}
+{#            contentType: false,#}
+{#        }).done(function(data){#}
+{#            alert(data);#}
+{##}
+{#        });#}
+{#    }#}
+{##}
+{#    document.getElementById("start-upload").addEventListener("click", fileUpload);#}
+{#</script>#}
+
+{% endblock %}
+

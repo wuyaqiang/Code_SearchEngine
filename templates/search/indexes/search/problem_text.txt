@@ -1,0 +1,8 @@
+{{object.title}}
+
+{{object.describe}}
+
+{% for la in object.label.all %}
+    {{ la.label_name }}
+{% endfor %}
+

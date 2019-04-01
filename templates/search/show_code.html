@@ -1,0 +1,62 @@
+{#login/templates/login/index.html#}
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}主页{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/showcode.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% if request.session.is_login %}
+    <div class="text">
+        <label>
+        {% for pro in post %}
+
+        ID:  {{ pro.id }}        <br/>
+        Title:  {{ pro.title }}   <br/>
+        Describe :  {{ pro.describe }}   <br/>
+        Difficult:  {{ pro.difficult }}   <br/>
+        keywords :  {{ keywords }}t
+
+
+        {% endfor %}
+
+        </label>
+        <div class="inputcode">
+            <form  method="post" action="#">
+                <label>语言：</label>
+                <select>
+                    <option value="Java" selected="selected">Java</option>
+                    <option value="C">C</option>
+                    <option value="C++">C++</option>
+                    <option value="Python">Python</option>
+                    <option value="PHP">PHP</option>
+                </select>
+			<br/>
+			<br/>
+			<textarea name="textarea" rows="8"cols="50" placeholder="请输入代码"></textarea>
+            <input type="submit" value="提交"/>
+        </form>
+        </div>
+
+    </div>
+    <input type="button" value="展示代码" onclick="javascript:OpenDiv();" id="showcode">
+    <div id="code">
+        <p onclick="showcode" href="#" id="codetext">代码{{ code }}</p>
+        <script>
+        function OpenDiv(){
+            document.getElementById("code").style.display="block";
+
+            document.getElementById("showcode").style.display="none";
+
+        }
+        function CloseDiv(){
+            document.getElementById("code").style.display="none";
+            document.getElementById("showcode").style.display="block";
+        }
+        </script>
+    </div>
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+{% endblock %}

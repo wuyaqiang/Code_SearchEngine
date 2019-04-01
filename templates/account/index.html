@@ -1,0 +1,52 @@
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}主页{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">{% endblock %}
+
+{% block content %}
+    {% if request.session.is_login %}
+    <div class="mainmenu">
+        <div class="innercol fl">
+            <span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
+                <h3 class="smalltitle">用户名：{{ request.session.user_name }} </h3>
+                <p>总做题数：100</p>
+                <p>平均分：3.5</p>
+                <p>打败了：97%的用户</p>
+                <p><a href="#">查看做过的题目</a></p>
+            </span>
+        </div>
+        <div class="recommand fr">
+            <table class="table table-striped" style="background:#B2DFEE;">
+                <tr >
+                    <th align="left">问题</th>
+                    <th align="left">难度系数</th>
+                    <th align="left">通过率</th>
+                </tr>
+                <tr>
+                    <td><a href="#">A+B problem</a></td>
+                    <td><a href="#">2</a></td>
+                    <td><a href="#">87%</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Sum problem</a></td>
+                    <td><a href="#">1</a></td>
+                    <td><a href="#">97%</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">A+B problem 2</a></td>
+                    <td><a href="#">3</a></td>
+                    <td><a href="#">60%</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#">Max problem</a></td>
+                    <td><a href="#">5</a></td>
+                    <td><a href="#">23%</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% else %}
+        <h1>您尚未登录，请您<a href="/login/">登录</a></h1>
+    {% endif %}
+{% endblock %}

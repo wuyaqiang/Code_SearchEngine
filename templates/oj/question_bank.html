@@ -1,0 +1,153 @@
+{% extends 'account/base2.html' %}
+{% load staticfiles %}
+{% block title %}题库{% endblock %}
+{% block css %}
+   <link rel="stylesheet" href="{% static 'css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    {% if request.session.is_login %}
+        <script type="text/javascript" src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.ztree.core.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.ztree.excheck.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.ztree.exedit.js' %}"></script>
+        <SCRIPT type="text/javascript">
+
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    key:{
+                        name :"label_name"
+                    },
+                    simpleData: {//简单数据模式
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "father_id",
+                        rootPId: null
+                    }
+                },
+                callback: {
+                    onCheck: onCheck
+                }
+            };
+
+            var zNodes ={{ data|safe }};
+
+            var clearFlag = false;
+             function onCheck(e, treeId, treeNode) {
+                count();
+                 var treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+                nodes=treeObj.getCheckedNodes(true),
+                v="";
+                var myarray=new Array();
+                for(var i=0;i<nodes.length;i++){
+                    v+=nodes[i].label_name + ",";
+                    myarray.push(nodes[i].id);
+
+                }
+
+                document.getElementById('filter').value = myarray.join(",");
+
+                if (clearFlag) {
+                    clearCheckedOldNodes();
+                }
+            }
+            function clearCheckedOldNodes() {
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getChangeCheckedNodes();
+                for (var i=0, l=nodes.length; i<l; i++) {
+                    nodes[i].checkedOld = nodes[i].checked;
+                }
+            }
+            function count() {
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                checkCount = zTree.getCheckedNodes(true).length,
+                nocheckCount = zTree.getCheckedNodes(false).length,
+                changeCount = zTree.getChangeCheckedNodes().length;
+                $("#checkCount").text(checkCount);
+                $("#nocheckCount").text(nocheckCount);
+                $("#changeCount").text(changeCount);
+
+            }
+            function createTree() {
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                count();
+                clearFlag = $("#last").attr("checked");
+            }
+
+            $(document).ready(function(){
+                createTree();
+                $("#init").bind("change", createTree);
+                $("#last").bind("change", createTree);
+            });
+
+        </SCRIPT>
+
+        <div class="box span3">
+            <form action="#" method="post">{% csrf_token %}
+                <div class="row-fluid" style="margin-top: 5px;">
+                    <div class="span9">
+                        <ul id="treeDemo" class="ztree" style="overflow: auto;" ></ul>
+                    </div>
+                    <div class="form-group">
+                        <select name="select_difficulty">
+                            <option value="No">难度</option>
+                            <option value ="0">0</option></option>
+                            <option value ="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="span2">
+                        <button class="btn btn-primary" type="submit" name="select_check" id="filter">
+                           过滤</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="lib fr">
+            <table class="table table-striped" style="background:#DCDCDC;">
+                <tr>
+                    <td>id</td>
+                    <td>标题</td>
+                    <td>难度</td>
+                    <td>标签</td>
+                </tr>
+                {% for i in problem %}
+
+                <tr>
+                    <td><a href="/question_bank/{{i.0.id }}">{{ i.0.id }}</a></td>
+                    <td><a href="/question_bank/{{i.0.id }}">{{ i.0.title }}</a></td>
+                    <td>{{ i.0.difficulty }}</td>
+                    <td>{{ i.1}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <form action="#" method="post">
+                <ul class="pagination" style="margin:0;">
+                    <li><a href="#">«</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a class="active" href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li><a href="#">7</a></li>
+                    <li><a href="#">»</a></li>
+                </ul>
+            </form>
+        </div>
+
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+
+{% endblock %}

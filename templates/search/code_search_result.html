@@ -1,0 +1,107 @@
+
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}找题{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="/static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+    <style>
+        span.highlight_me_please{
+            color: red;
+        }
+    </style>
+    <title>搜索结果：</title>
+</head>
+<body>
+<div class="container">
+<div class="clearfix"></div>
+
+                <div class="form-group" style="margin-top:-20px!important;">
+                    <div class="input-group input-group-lg" style="width:60%;">
+                        <form action="/code_search_result/" method="get">
+                            <div class="col">
+                            <textarea class="fl cod" name="code1" placeholder="{{ raw_query }}"></textarea>
+                            </div>
+                            <br><br><br><br><br><br>
+                            <div class="form-group">
+                                <select name="select_language">
+                                <option value="">请选择语言</option>
+                                <option value ="python">Python</option>
+                                <option value ="cpp">C++</option>
+                                </select>
+                            </div>
+                            <input id="site-search-submit" class="search_fa fl" type="submit" value="代码搜索" >
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+<div>
+{% load highlight %}
+
+   <h2>搜索结果如下({{ result_num }}个结果)：</h2>
+   <br>
+{#     {% autopaginate posts 10 %}#}
+
+        {% for result in posts %}
+            <div>
+            <h3>源代码：</h3>
+            <pre class="code_intent">{% highlight result.code with query_token html_tag "span" css_class "highlight_me_please" max_lenght 10000 start_head True %}
+            </pre>
+
+            <br/>
+            <br/>
+            </div>
+
+        {% empty %}
+            <p>有问题，但是啥也没找到</p>
+        {% endfor %}
+{#     {% paginate %}#}
+
+</div>
+
+</div>
+<script>
+
+    $(function () {
+        $('#show_hidden').click(function () {
+
+            $('#search-options').toggle()
+
+        })
+    })
+
+</script>
+
+<script>
+    function isblank(obj) {
+         if (obj.value.match('^ +$')) {
+                alert("请输入正确检索词");
+                obj.value = null;
+                return false;
+            }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>
+
+{% endblock %}
+
+
+
+
+

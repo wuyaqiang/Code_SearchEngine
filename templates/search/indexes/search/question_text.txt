@@ -1,0 +1,6 @@
+{{object.question_text}}
+{{object.answer_text}}
+
+
+
+

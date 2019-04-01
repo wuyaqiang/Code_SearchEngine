@@ -1,0 +1,444 @@
+{% extends 'account/base2.html' %}
+{% load staticfiles %}
+{% block title %}找题{% endblock %}
+{#{% block css %}#}
+{#    <link href="{% static 'css/question.css' %}">#}
+{#{% endblock %}#}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+   <link rel="stylesheet" href="{% static 'css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+
+
+{#    <script type="text/javascript" src="/static/js/jquery-3.2.1.js"></script>#}
+    <script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+
+{#    <script type="text/javascript" src="{% static 'js/jquery-1.9.1.min.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'js/jquery.ztree.core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.ztree.excheck.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.ztree.exedit.js' %}"></script>
+
+    <input type="hidden" id="label_href" value="&label_con={{ label_con_string }}&title={{ query_title }}&describe={{ query_describe }}" >
+    </input>
+        <SCRIPT type="text/javascript">
+
+            function zTreeOnClick(event,treeId,treeNode) {
+{#                alert(treeNode.id+','+treeNode.label_name+','+treeNode.num);#}
+                res = treeNode.label_name.split('-')[0];
+                window.location.href = '/search2/?label='+res+$('#label_href').val();
+
+            }
+
+            var setting = {
+                view: {
+                    selectedMulti: false,
+                    showIcon: false,
+                    showLine:false
+                },
+                check: {
+                    enable: false
+                },
+                data: {
+                    key:{
+                        name :"label_name"
+                    },
+                    simpleData: {//简单数据模式
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "father_id",
+                        rootPId: null
+                    }
+                },
+                callback: {
+                    onClick:zTreeOnClick
+
+                }
+            };
+
+            var zNodes ={{ data|safe }};
+
+
+            function createTree() {
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                treeObj.expandAll(true);
+
+            }
+
+            $(document).ready(function(){
+                createTree();
+                $("#init").bind("change", createTree);
+                $("#last").bind("change", createTree);
+            });
+
+        </SCRIPT>
+
+
+    <style>
+
+       * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            max-width: 1920px;
+        }
+
+        #btn {
+            position: absolute;
+            top: 12%;
+            left: 290px;
+            height: 50px;
+            width: 27px;
+            border: 0;
+            border-left: 1px solid rgb(23, 32, 43);
+            background: #AA3344;
+            color: #d58512;
+            cursor: pointer;
+        }
+
+        .box {
+            float: left;
+            position: relative;
+            left: 0;
+            height: 1000px;
+            width: 300px;
+            margin-left: 0;
+            display: block;
+            background-color: #0ba1e4;
+            -moz-transition: margin-left 2s;
+            transition: margin-left 0.5s;
+
+        }
+
+        aside ul li {
+{#            height: 40px;#}
+{#            line-height: 40px;#}
+{#            border-top: 1px solid #fff;#}
+{#            border-bottom: 1px solid #fff;#}
+{#            list-style-type: none;#}
+            text-align: center;
+        }
+
+        aside ul li a {
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            text-decoration-line: none;#}
+            color: #fff;
+{#            display: block;#}
+        }
+
+        aside ul li a:hover {
+            background:#2e6da4;
+        }
+
+        section {
+            width: 100%;
+            height: 100%;
+            background:#f5f5f5;
+{#            height: 1000px;#}
+            padding-left: 0px;
+
+        }
+
+
+        span.highlight_me_please{
+            color: red;
+        }
+    </style>
+    <title>搜索结果：</title>
+
+</head>
+<body>
+
+<aside class="box" id="test">
+        <button id="btn">三</button>
+
+        <ul>
+            <li>
+                <h3>结果关键知识点：</h3>
+            </li>
+        </ul>
+             <div class=" span3">
+            <form action="#" >{% csrf_token %}
+
+                    <div class="span9">
+                        <ul id="treeDemo" class="ztree" style="" ></ul>
+                    </div>
+            </form>
+            </div>
+
+
+</aside>
+
+
+
+<section style="padding-left: 30px; margin-left: 30px">
+
+                <div class="form-group" style="margin-top: 0px!important;">
+                <form action="/search1/" method="get">
+                    <div class="input-group input-group-lg" style="width:60%;margin: 0 auto;">
+                        <input autofocus type="search" class="form-control" name="q"
+                               aria-labelledby="site-search-submit" value="{{ query }}"  onchange="isblank(this)">
+                            <span class="input-group-btn">
+                                <input id="site-search-submit" class="btn btn-primary" type="submit" value="搜索">
+{#                                <span class="glyphicon glyphicon-search" aria-hidden="true"> 搜索</span>#}
+                            </span>
+                    </div>
+                </form>
+                </div>
+
+
+
+ <!--高级查询功能 start-->
+
+
+                <div class="col-sm-3" id="show_hidden">
+                    <div class="form-group text-right">
+                        <button id="search-options-toggle" type="button" class="btn btn-block btn-default"
+                                data-toggle="collapse" data-target="#search-options">
+                            <span class="fa fa-cog"></span>
+                            <span class="title">高级查询</span>
+                        </button>
+                    </div>
+                </div>
+
+            <!--高级查询收缩栏功能 start-->
+            <form action="/search2/" method="get">
+
+
+            <div id="search-options" class="row collapse" style="display: none" >
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">参考选项:</div>
+                            <div class="panel-body">
+                                <div class="text-center center-block">
+                                        <div class="form-group">
+                                            <label for="inp_title" class="col-sm-2 control-label">标题:</label>
+                                            <div class="col-sm-10">
+                                                <input type="search" class="form-control" id="inp_title" name="title"
+                                                       placeholder="请输入标题" value="{{ query_title }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="search-inp">
+                                             <label for="inp_start_date" class="col-sm-2 control-label">题描述:</label>
+                                            <div class="col-sm-4" >
+                                                <input type="search" class="form-control" id="inp_title" name="describe"
+                                                       placeholder="请输入题内容" value="{{ query_describe }}">
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="form-group">
+                                            <label for="inp_keywords" class="col-sm-2 control-label">关键知识点:</label>
+                                            <div class="col-sm-4">
+
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="数据结构"><label>数据结构</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="链表"><label>链表</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="栈"><label>栈</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="树"><label>树</label>
+                                                 <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="二叉树"><label>二叉树</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="图"><label>图</label>
+                                                <br/>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="算法"><label>算法</label>
+                                                 <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="排序"><label>排序</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="深度优先搜索"><label>深度优先搜索</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="广度优先搜索"><label>广度优先搜索</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="二叉树遍历"><label>二叉树遍历</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="二叉树先序遍历"><label>二叉树先序遍历</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="二叉树中序遍历"><label>二叉树中序遍历</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="二叉树后序遍历"><label>二叉树后序遍历</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="冒泡排序"><label>冒泡排序</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="选择排序"><label>选择排序</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="堆排序"><label>堆排序</label>
+                                                <input type="radio" class="form-control" id="inp_keywords" name="label"
+                                                       value="其他"><label>其他</label>
+
+                                            </div>
+
+                                        </div>
+
+                                        <br/>
+                                        <div class="form-group">
+                                            <label for="inp_diff" class="col-sm-2 control-label">难度:</label>
+                                            <div class="col-sm-4">
+                                                <input type="radio" class="form-control" id="inp_lang" name="difficult"
+                                                       value="0"><label>0</label>
+                                                <input type="radio" class="form-control" id="inp_lang" name="difficult"
+                                                       value="1"><label>1</label>
+                                                <input type="radio" class="form-control" id="inp_lang" name="difficult"
+                                                       value="2"><label>2</label>
+                                                <input type="radio" class="form-control" id="inp_lang" name="difficult"
+                                                       value="3"><label>3</label>
+                                                <input type="radio" class="form-control" id="inp_lang" name="difficult"
+                                                       value="4"><label>4</label>
+
+                                            </div>
+                                        </div>
+
+                                        <br/><br/>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-8">
+                                                <button type="submit" class="btn btn-default" value="q" id="search-btn">
+                                                    高级搜索
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            <!--高级查询收缩栏功能 end-->
+            <!--高级查询功能 end-->
+<br/>
+
+<div>
+    <p>筛选知识点：</p>
+{% for i in label_con %}
+   <a href="/search2/?delete_label={{ i }}&label_con={{ label_con_string }}"> {{ i }}  </a>&nbsp;
+{% endfor %}
+<br/>
+<li>
+  <a id="reset-facets" class="btn btn-xs btn-default btn-danger remove" href="/search1/?q=">
+         清除所有筛选方式
+  </a>
+</li>
+</div>
+  <br/>
+
+<br/>
+<div>
+{% load highlight %}
+
+   <h3>搜索结果如下：</h3>
+    <p>搜索结果总数：{{ result_num }}</p>
+     <div id="cond">
+            {% for i,j in kw %}
+             <li>
+                 <a href="/search2/?label={{ i }}&label_con={{ label_con_string }}&title={{ query_title }}&describe={{ query_describe }}">   {{ i }} : {{ j }}  </a>
+                <br/>
+            </li>
+            {% endfor %}
+      </div>
+
+{#     {% autopaginate posts 10 %}#}
+
+        {% for result in posts %}
+
+{#            <h3>{{ forloop.counter }}</h3>#}
+{#            <a href={{ result.0.object.id }}  target="_blank">#}
+                <h2>ID:{{ result.0.object.id }}</h2>
+{#            </a>#}
+            <h2>题目:</h2>
+{#            <a href={{ result.0.object.id }}  target="_blank">#}
+            <p>{% highlight result.0.object.title with query_title html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+{#            </a>#}
+            <h2>题面:</h2>
+{#            <a href={{ result.0.object.id }}  target="_blank">#}
+            <p>{% highlight result.0.object.description with query_describe html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+{#            </a>#}
+            <h2>标签:
+            {% for k in result.1 %}
+            {% highlight k with query_keywords html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+             ;
+            {% endfor %}
+            </h2>
+            <h2>难度:   &nbsp;
+            {{ result.0.object.difficulty }}
+            </h2>
+
+            <br/>
+            <br/>
+
+        {% empty %}
+            <p>有问题，但是啥也没找到</p>
+        {% endfor %}
+{#     {% paginate %}#}
+
+</div>
+</section>
+
+
+
+<script>
+
+var box = document.getElementById("test");
+        var btn = document.getElementById("btn");
+        btn.onclick = function() {
+            if (box.offsetLeft == 0) {
+                box.style['margin-left'] = -300 + "px";
+
+            } else {
+                box.style['margin-left'] = 0 + "px";
+
+            }
+        }
+
+</script>
+
+<script>
+
+    $(function () {
+        $('#show_hidden').click(function () {
+
+            $('#search-options').toggle();
+
+        })
+    })
+
+</script>
+
+<script>
+    function isblank(obj) {
+         if (obj.value.match('^ +$')) {
+                alert("请输入正确检索词");
+                obj.value = null;
+                return false;
+            }
+
+        return true;
+    }
+</script>
+
+
+</body>
+</html>
+
+
+{% endblock %}
+
+
+
+
+
+

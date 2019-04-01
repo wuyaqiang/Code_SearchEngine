@@ -1,0 +1,33 @@
+{% extends 'account/base.html' %}
+{% load staticfiles %}
+{% block title %}找答案{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="form-group" style="margin-top: 0px!important;">
+    <form action="/search_question/" method="get">
+        <div class="input-group input-group-lg" style="width:60%;margin: 0 auto;">
+            <input autofocus type="search" class="form-control" name="q"
+                   aria-labelledby="site-search-submit" placeholder="search for anwser..." onchange="isblank(this)" required="required">
+                <span class="input-group-btn">
+                    <input id="site-search-submit" class="btn btn-primary" type="submit" value="搜索问题">
+{#                                  <span class="glyphicon glyphicon-search" aria-hidden="true"> 搜索</span>#}
+                </span>
+        </div>
+    </form>
+    </div>
+
+    <script>
+        function isblank(obj) {
+             if (obj.value=='') {
+                    alert("请输入正确检索词");
+                    obj.value = null;
+                    return false;
+                }
+
+            return true;
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <script type="text/javascript" src="/static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+    <style>
+        span.highlight_me_please{
+            color: red;
+        }
+    </style>
+    <title>找答案</title>
+</head>
+<body>
+
+                <div class="form-group" style="margin-top: 0px!important;">
+                <form action="/search_question/" method="get">
+
+
+                    <div class="input-group input-group-lg" style="width:60%;margin: 0 auto;">
+                        <input autofocus type="search" class="form-control" name="q"
+                               aria-labelledby="site-search-submit" value="{{ query }}"  onchange="isblank(this)" required="required">
+                            <span class="input-group-btn">
+                                <input id="site-search-submit" class="btn btn-primary" type="submit" value="搜索问题">
+{#                                <span class="glyphicon glyphicon-search" aria-hidden="true"> 搜索</span>#}
+                            </span>
+                    </div>
+                </form>
+                </div>
+<div>
+{% load highlight %}
+
+   <h3>问题答案搜索结果如下：</h3>
+    <p>搜索结果总数：{{ result_num }}</p>
+
+{#     {% autopaginate posts 10 %}#}
+
+        {% for result in posts %}
+
+{#            <h3>{{ forloop.counter }}</h3>#}
+            <a href={{ result.object.id }}  target="_blank"><h2>ID:{{ result.object.id }}
+            </h2>
+            </a>
+            <h2>question_text:</h2>
+            <a href={{ result.object.id }}  target="_blank">
+            <p>{% highlight result.object.question_text with query html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+            </a>
+            <h2>question_code:</h2>
+            <a href={{ result.object.id }}  target="_blank">
+            <p>{% highlight result.object.question_code with query html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+            </a>
+            <h2>answer_text:</h2>
+            <a href={{ result.object.id }}  target="_blank">
+            <p>{% highlight result.object.answer_text with query html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+            </a>
+            <h2>answer_code:</h2>
+            <a href={{ result.object.id }}  target="_blank">
+            <p>{% highlight result.object.answer_code with query html_tag "span" css_class "highlight_me_please" max_lenght 5000 start_head True %}
+            </p>
+            </a>
+
+            <br/>
+            <br/>
+
+        {% empty %}
+            <p>有问题，但是啥也没找到</p>
+        {% endfor %}
+{#     {% paginate %}#}
+
+</div>
+<script>
+    function isblank(obj) {
+         if (obj.value=='') {
+                alert("请输入正确检索词");
+                obj.value = null;
+                return false;
+            }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>

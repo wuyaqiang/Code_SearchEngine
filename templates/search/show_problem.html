@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+相关问题：<br/><br/>
+{% for pro in post %}
+
+  ID:  {{ pro.id }}        <br/>
+  Title:  {{ pro.title }}   <br/>
+  Describe:  {{ pro.description }}   <br/>
+  Difficult:  {{ pro.difficulty }}   <br/>
+  keywords:  {{ keywords }}
+
+{% endfor %}
+
+
+</body>
+</html>

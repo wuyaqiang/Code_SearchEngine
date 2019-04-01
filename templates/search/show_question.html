@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+
+    <title>问题答案</title>
+</head>
+<body>
+
+相关答案：<br/><br/>
+{% for pro in post %}
+
+  ID:  {{ pro.id }}        <br/>
+  question_text:  {{ pro.question_text }}   <br/>
+  question_code:  {{ pro.question_code }}   <br/>
+  answer_text:  {{ pro.answer_text }}   <br/>
+  answer_code :  {{ pro.answer_code }}
+    spare:{{ pro.spare }}
+
+{% endfor %}
+
+</body>
+</html>
